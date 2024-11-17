@@ -1,3 +1,5 @@
+# Bikes Sales Information Dashboard
+
 ### Project Overview
 
 The ultimate goal of this project was to glean insights into what kinds of people are buying bicycles. Learning what factors, such as age, gender, education etc. affect bike sales can aid firms in deciding to what groups they should prioritize marketing.
