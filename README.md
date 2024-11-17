@@ -11,7 +11,7 @@ Layoffs Data: The main data source used for this project was the dataset found i
 ### Tools
 
 - Excel - Loaded Dataset; Cleaned and Analyzed
- - Pivot Tables - Backbone of Interactable Dashboard
+  - Pivot Tables - Backbone of Interactable Dashboard
 
 ### Data Cleaning/Preparation Phase
 
