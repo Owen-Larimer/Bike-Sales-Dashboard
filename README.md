@@ -7,7 +7,7 @@ The ultimate goal of this project was to glean insights into what kinds of peopl
 
 ### Data Sources
 
-Layoffs Data: The main data source used for this project was the dataset found in the 
+Layoffs Data: The main data source used for this project was the dataset found in the "Excel_bike_sales_data.xlsx" file. It contains uncleaned information about bike sales. Each row is a single customer visit with columns regarding that customer's attributes and whether they purchased a bike. There are well over 1000 rows.
 
 ### Tools
 
@@ -16,65 +16,27 @@ Layoffs Data: The main data source used for this project was the dataset found i
 
 ### Data Cleaning/Preparation Phase
 
-In cleaning, we performed the following:
-1. Removed all duplicate values by creating a secondary set and partitioning the data.
-2. Standardized all data by trimming white space.
-3. Turned a date column from a text type to a datetime.
-4. Repaired any blank or null values we could, and removed the rest
+In cleaning, we performed the following in excel:
+1. Removed all duplicates.
+2. Detailed columns using Find and Replace.
+3. Fixed format issues with data types
+4. Created an age bracket column using a nested if statement
 
-### Exploratory Data Analysis Phase
+### Table/Visualization Phase
 
-During the explore phase, we looked at the following:
-1. Found maximum people laid off at once.
-2. Found companies that went completely under and laid off all employees.
-3. Discovered the companies, industries, and countries that had the most total people laid off throughout COVID.
+During this phase, we used the data and pivot table feature of excel to create a number of charts and graphs to visualize each customer attribute and its effect on sales. Filters were applied to each visualization individually to allow the final dashboard to be interacted with.
 
-#### Data Analysis Code Examples:
-
-##### Rolling Total of Layoffs
-```sql
-WITH Rolling_Total AS 
-(SELECT SUBSTRING(`date`,1,7) AS `MONTH`, SUM(total_laid_off) AS total_off
-FROM layoffs_staging3
-WHERE SUBSTRING(`date`,1,7) IS NOT NULL
-GROUP BY `MONTH`
-ORDER BY 1 ASC
-)
-SELECT `MONTH`, total_off,
-SUM(total_off) OVER(ORDER BY `MONTH`) AS rolling_total
-FROM Rolling_Total;
-```
-##### Layoff Rankings by Year:
-```sql
-WITH Company_Year (company, years, total_laid_off) AS
-(
-SELECT company, YEAR(`date`), SUM(total_laid_off)
-FROM layoffs_staging3
-GROUP BY company, YEAR(`date`)
-), Company_Year_Rank AS 
-(SELECT *, DENSE_RANK() OVER (PARTITION BY years ORDER BY total_laid_off DESC) AS Ranking
-FROM Company_Year
-WHERE years is NOT NULL
-)
-SELECT *
-FROM Company_Year_Rank
-WHERE Ranking <= 5;
-```
+![image](https://github.com/user-attachments/assets/2165f3be-754e-43de-bfec-3365d8e43097)
 
 ### Findings
-A summary of some findings from the analysis:
-1. The most laid off at a time was 12000 people.
-2. Well over 100 companies laid off their entire workforce.
-3. Consumer and Retail industries had by far the most layoffs.
-4. The US had by far the most amount of people laid off.
-5. A total of 378689 people were laid off (rolling total).
-6. Amazon had the most employees laid off at 18150 total.
-7. Google had the most laid off at one time at 12000, about 6% of it's entire workforce.
-8. Rankings for top 5 company layoffs for each year within the dataset (layoff rankings).
+In exploring some of the dashboard's filters, we can discover that:
+1. Men with only partial high school education are most likely to buy a bike if they are customers.
+2. Commute distance is a great predictor of whether someone will buy a bike.
+3. 
 
 ### Limitations
 
-The main limitation of this project was the fact that the "percentage laid off" column was largely useless to me without having each company's workforce total at the time of the layoffs within the dataset. Therefore, I was only able to use that column when it was 1, as that meant the entire workforce was laid off.
+The main limitation of this project was
 
 ### From Here
 The main goal of this project was just to push my SQL ability to its limits. It is still possible to load any of my resulting datasets into Tableau or Pandas to get some solid visualizations that represent the data, and that may be a short addition to this project in the future. However, for now, I've accomplished what I set out to do.
